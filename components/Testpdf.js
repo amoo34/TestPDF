@@ -1,19 +1,20 @@
-import React from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Dimensions, Button} from 'react-native';
 import Pdf from 'react-native-pdf';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: 'grey',
   },
   pdf: {
     flex: 1,
-
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+  },
+  options: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 
@@ -26,6 +27,24 @@ export default function Testpdf() {
   };
 
   console.log('moin');
+
+  const [horizontal, setHorizontal] = useState(true);
+  const [page, setPage] = useState(1);
+
+  // Check User want SinglePage/Horizontal or Continuos/Vertical Layout
+  const handleLayout = (layout) => {
+    console.log(layout);
+    layout === 'singlePage' ? setHorizontal(true) : setHorizontal(false);
+  };
+  // Button for next page
+  const nextPage = () => {
+    setPage(page + 1);
+  };
+  // Button for previous page
+  const previousPage = () => {
+    setPage(page - 1);
+  };
+
   return (
     <View style={styles.container}>
       <Pdf
@@ -43,7 +62,26 @@ export default function Testpdf() {
           console.log(`Link presse: ${uri}`);
         }}
         style={styles.pdf}
+        horizontal={horizontal}
+        spacing={10}
+        enablePaging={true}
+        page={page}
       />
+
+      <View style={styles.options}>
+        <Button onPress={previousPage} title="Previous Page" />
+
+        {!horizontal ? (
+          <Button
+            onPress={() => handleLayout('singlePage')}
+            title="Single Page"
+          />
+        ) : (
+          <Button onPress={() => handleLayout('continuos')} title="Continuos" />
+        )}
+
+        <Button onPress={nextPage} title="Next Page" />
+      </View>
     </View>
   );
 }

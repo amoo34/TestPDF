@@ -37,15 +37,6 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
   },
-
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
 });
 
 export default App;
